@@ -36,6 +36,12 @@
 			<xsl:text> </xsl:text>
 
             <xsl:choose>
+                <xsl:when test="datatype = 'SERIAL'">
+                    <xsl:value-of select="datatype" />
+                </xsl:when>
+                <xsl:when test="datatype = 'SMALLSERIAL'">
+                    <xsl:value-of select="datatype" />
+                </xsl:when>
                 <xsl:when test="@autoincrement = 1">
                     <!-- use postgresql BIGSERIAL shortcut for columns marked as
                     auto-increment. this creates integer column,
@@ -50,11 +56,11 @@
                 </xsl:otherwise>
             </xsl:choose>
 			<xsl:text></xsl:text>
-			
+
 			<xsl:if test="@null = 0">
 				<xsl:text> NOT NULL</xsl:text>
-			</xsl:if> 
-			
+			</xsl:if>
+
 			<xsl:if test="default">
                 <xsl:if test=" default != 'NULL' ">
                     <xsl:text> DEFAULT </xsl:text>
@@ -72,9 +78,9 @@
 			<xsl:if test="not (position()=last())">
 				<xsl:text>,
 </xsl:text>
-			</xsl:if> 
+			</xsl:if>
 		</xsl:for-each>
-		
+
 <xsl:text>
 );
 </xsl:text>
@@ -95,7 +101,7 @@
 				<xsl:when test="@type = 'UNIQUE'">UNIQUE (</xsl:when>
 				<xsl:otherwise>KEY (</xsl:otherwise>
 			</xsl:choose>
-			
+
 			<xsl:for-each select="part">
 				<xsl:text></xsl:text><xsl:value-of select="." /><xsl:text></xsl:text>
 				<xsl:if test="not (position() = last())">
@@ -104,7 +110,7 @@
 			</xsl:for-each>
 			<xsl:text>);
 </xsl:text>
-			
+
 		</xsl:for-each>
 
 
@@ -142,7 +148,7 @@
             <xsl:text>';
 </xsl:text>
 		</xsl:if>
-		
+
 <!-- column comments -->
 		<xsl:for-each select="row">
 			<xsl:if test="comment">
