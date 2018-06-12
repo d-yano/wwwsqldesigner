@@ -26,6 +26,17 @@
 
 <!-- tables -->
 	<xsl:for-each select="table">
+
+<!-- table comment -->
+        <xsl:text>-- </xsl:text>
+        <xsl:call-template name="replace-substring">
+			<xsl:with-param name="value" select="comment" />
+			<xsl:with-param name="from" select='"&apos;"' />
+			<xsl:with-param name="to" select='"&apos;&apos;"' />
+		</xsl:call-template>
+        <xsl:text>
+</xsl:text>
+
 		<xsl:text>CREATE TABLE </xsl:text>
 		<xsl:value-of select="@name" />
 		<xsl:text> (
@@ -88,28 +99,61 @@
 
 </xsl:text>
 <!-- keys -->
-		<xsl:for-each select="key">
-			<xsl:text>ALTER TABLE </xsl:text>
-            <xsl:text></xsl:text>
-			<xsl:value-of select="../@name" />
-			<xsl:text> </xsl:text>
-            <xsl:text>ADD CONSTRAINT </xsl:text>
-			<xsl:value-of select="../@name" />
-			<xsl:text>_pkey </xsl:text>
-			<xsl:choose>
-				<xsl:when test="@type = 'PRIMARY'">PRIMARY KEY (</xsl:when>
-				<xsl:when test="@type = 'UNIQUE'">UNIQUE (</xsl:when>
-				<xsl:otherwise>KEY (</xsl:otherwise>
-			</xsl:choose>
+        <xsl:for-each select="key">
 
-			<xsl:for-each select="part">
-				<xsl:text></xsl:text><xsl:value-of select="." /><xsl:text></xsl:text>
-				<xsl:if test="not (position() = last())">
-					<xsl:text>, </xsl:text>
-				</xsl:if>
-			</xsl:for-each>
-			<xsl:text>);
+            <xsl:choose>
+
+                <!-- INDEX -->
+                <xsl:when test="@type = 'INDEX'">
+
+                    <!-- CREATE INDEX index_name ON table_name (column_name); -->
+            		<xsl:text>CREATE INDEX </xsl:text>
+                    <xsl:text></xsl:text>
+        			<xsl:value-of select="../@name" />
+        			<xsl:text>_idx </xsl:text>
+                    <xsl:text>ON </xsl:text>
+        			<xsl:value-of select="../@name" />
+        			<xsl:text> (</xsl:text>
+
+        			<xsl:for-each select="part">
+        				<xsl:text></xsl:text><xsl:value-of select="." /><xsl:text></xsl:text>
+        				<xsl:if test="not (position() = last())">
+        					<xsl:text>, </xsl:text>
+        				</xsl:if>
+        			</xsl:for-each>
+        			<xsl:text>);
 </xsl:text>
+
+                </xsl:when>
+
+                <!-- PRIMARY KEY, UNIQUE, OTHER -->
+                <xsl:otherwise>
+
+                    <xsl:text>ALTER TABLE </xsl:text>
+                    <xsl:text></xsl:text>
+        			<xsl:value-of select="../@name" />
+        			<xsl:text> </xsl:text>
+                    <xsl:text>ADD CONSTRAINT </xsl:text>
+        			<xsl:value-of select="../@name" />
+        			<xsl:text>_pkey </xsl:text>
+        			<xsl:choose>
+        				<xsl:when test="@type = 'PRIMARY'">PRIMARY KEY (</xsl:when>
+        				<xsl:when test="@type = 'UNIQUE'">UNIQUE (</xsl:when>
+        				<xsl:otherwise>KEY (</xsl:otherwise>
+        			</xsl:choose>
+
+        			<xsl:for-each select="part">
+        				<xsl:text></xsl:text><xsl:value-of select="." /><xsl:text></xsl:text>
+        				<xsl:if test="not (position() = last())">
+        					<xsl:text>, </xsl:text>
+        				</xsl:if>
+        			</xsl:for-each>
+        			<xsl:text>);
+</xsl:text>
+
+                </xsl:otherwise>
+
+            </xsl:choose>
 
 		</xsl:for-each>
 
