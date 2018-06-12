@@ -12,6 +12,7 @@ SQL.Table = function (owner, name, x, y, z) {
     this.selected = false;
     SQL.Visual.apply(this);
     this.data.comment = "";
+    this.data.logicalname = "";
 
     this.setTitle(name);
     this.x = x || 0;
@@ -61,6 +62,7 @@ SQL.Table.prototype.setTitle = function (t) {
         }
     }
     SQL.Visual.prototype.setTitle.apply(this, [t]);
+
 }
 
 SQL.Table.prototype.getRelations = function () {
@@ -328,6 +330,16 @@ SQL.Table.prototype.findNamedRow = function (n) { /* return row with a given nam
 
 SQL.Table.prototype.setComment = function (c) {
     this.data.comment = c;
+
+    var title = [];
+    title.push(this.data.title);
+    if (this.owner.getOption("showlogicalname") && c) {
+        this.data.logicalname = c;
+        title.push(this.data.logicalname);
+    }
+
+    this.dom.title.innerHTML = title.join(" ");
+
     this.dom.title.title = this.data.comment;
 }
 
