@@ -40,7 +40,7 @@ SQL.Designer = function () {
     this.flag = 2;
     this.requestLanguage();
     this.requestDB();
-    
+
     OZ.select('.tooltip').forEach(function (each) {
         new SQL.Tooltip(OZ.$(each.dataset.for), each);
     });
@@ -220,6 +220,9 @@ SQL.Designer.prototype.getOption = function (name) {
             return 0;
         case "showtype":
             return 0;
+        // Todo: Option設定画面から変更を行える仕様を追加する
+		case "showlogicalname":
+            return 1;
         case "pattern":
             return "%R_%T";
         case "hide":
@@ -428,7 +431,7 @@ SQL.Designer.prototype.zoom = function (level) {
 
 SQL.Designer.prototype.press = function (e) {
     var target = OZ.Event.target(e).nodeName.toLowerCase();
-    
+
     if (target == "textarea" || target == "input") {
         return;
     } /* not when in form field */

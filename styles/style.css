@@ -34,13 +34,13 @@ body {
 ::-webkit-scrollbar-thumb {
     -webkit-border-radius: 0px;
     border-radius: 0px;
-    background: rgba(0,0,0,0.4); 
+    background: rgba(0,0,0,0.4);
 }
 ::-webkit-scrollbar-thumb:hover {
-    background: rgba(0,0,0,0.7); 
+    background: rgba(0,0,0,0.7);
 }
 ::-webkit-scrollbar-thumb:active {
-    background: rgba(0,0,0,0.8); 
+    background: rgba(0,0,0,0.8);
 }
 ::-webkit-scrollbar-thumb:window-inactive {
     background: rgba(0,0,0,0.1);
@@ -226,6 +226,12 @@ body {
 
 .typehint {
     font-size: 80%;
+    color: gray;
+}
+
+.logicalname {
+    font-size: 80%;
+    text-align: center;
     color: gray;
 }
 

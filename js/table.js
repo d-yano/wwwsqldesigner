@@ -26,7 +26,7 @@ SQL.Table.prototype._build = function () {
     this.dom.content = OZ.DOM.elm("table");
     var thead = OZ.DOM.elm("thead");
     var tr = OZ.DOM.elm("tr");
-    this.dom.title = OZ.DOM.elm("td", {className: "title", colSpan: 2});
+    this.dom.title = OZ.DOM.elm("td", {className: "title", colSpan: 3});
 
     OZ.DOM.append(
             [this.dom.container, this.dom.content],

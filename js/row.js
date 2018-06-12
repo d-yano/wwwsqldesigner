@@ -16,6 +16,7 @@ SQL.Row = function (owner, title, data) {
     this.data.nll = true;
     this.data.ai = false;
     this.data.comment = "";
+    this.data.logicalname = "";
 
     if (data) {
         this.update(data);
@@ -32,11 +33,13 @@ SQL.Row.prototype._build = function () {
     this.dom.title = OZ.DOM.elm("div", {className: "title"});
     var td1 = OZ.DOM.elm("td");
     var td2 = OZ.DOM.elm("td", {className: "typehint"});
+    var td3 = OZ.DOM.elm("td", {className: "logicalname"});
     this.dom.typehint = td2;
+    this.dom.logicalname = td3;
 
     OZ.DOM.append(
             [this.dom.container, this.dom.content],
-            [this.dom.content, td1, td2],
+            [this.dom.content, td1, td3, td2],
             [td1, this.dom.selected, this.dom.title]
             );
 
@@ -300,6 +303,16 @@ SQL.Row.prototype.redraw = function () {
     }
 
     this.dom.typehint.innerHTML = typehint.join(" ");
+
+
+    var logicalname = [];
+    if (this.owner.owner.getOption("showlogicalname") && this.data.comment) {
+        this.data.logicalname = this.data.comment;
+        logicalname.push(this.data.logicalname);
+    }
+
+    this.dom.logicalname.innerHTML = logicalname.join(" ");
+
     this.owner.redraw();
     this.owner.owner.rowManager.redraw();
 }
