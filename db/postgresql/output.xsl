@@ -96,8 +96,25 @@
 );
 </xsl:text>
 <xsl:text>
-
 </xsl:text>
+
+	</xsl:for-each>
+
+<xsl:text>
+</xsl:text>
+
+	<xsl:for-each select="table">
+
+        <!-- setting comment -->
+        <xsl:text>-- </xsl:text>
+        <xsl:call-template name="replace-substring">
+    		<xsl:with-param name="value" select="comment" />
+    		<xsl:with-param name="from" select='"&apos;"' />
+    		<xsl:with-param name="to" select='"&apos;&apos;"' />
+		</xsl:call-template>
+        <xsl:text>
+</xsl:text>
+
 <!-- keys -->
         <xsl:for-each select="key">
 
